@@ -6,7 +6,7 @@ import Submissions from './pages/Submissions'
 const App = () => {
   return (
     <Router>
-      <div className='bg-background min-h-screen text-neutral-200 font-mono'>
+      <div className='min-h-screen text-neutral-300 bg-background font-mono'>
         <Routes>
           <Route path='/' element={<Submit />} />
           <Route path='/submissions' element={<Submissions />} />
