@@ -17,7 +17,7 @@ The Tech Stacks used are:
 
 <div align="center">
   <a href="https://skillicons.dev">
-      <img src="https://skillicons.dev/icons?i=mysql,expressjs,react,nodejs,prisma" />
+      <img src="https://skillicons.dev/icons?i=mysql,expressjs,react,nodejs,prisma,redis" />
   </a>
 </div>
 
