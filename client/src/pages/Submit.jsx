@@ -4,6 +4,7 @@ import { Editor } from '@monaco-editor/react'
 import LanguageDropDown from '../components/LanguageDropDown'
 import OutputWindow from '../components/OutputWindow'
 import Details from '../components/Details'
+import {useNavigate} from 'react-router-dom'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const Submit = () => {
@@ -13,6 +14,7 @@ const Submit = () => {
   const [processing, setProcessing] = useState(false)
   const [outputDetails, setOutputDetails] = useState(null)
   const [username, setUsername] = useState('')
+  const navigate = useNavigate()
 
   const handleCompile = () => {
     console.log('compiling start')
@@ -124,11 +126,12 @@ const Submit = () => {
             </div>
             <textarea onChange={(e) => setCustomInput(e.target.value)} className='w-full h-full outline-none bg-[#333] p-1 rounded-md' placeholder='custom input...'></textarea>
           </div>
-          <div className='bg-[#333333] w-[50%] rounded-md flex flex-col'>
+          <div className='bg-[#333333] w-[50%] rounded-md flex flex-col gap-4'>
             {outputDetails ? (<>
               <Details outputDetails={outputDetails} />
               <OutputWindow outputDetails={outputDetails} />
             </>) : (<div className='flex justify-center items-center h-full'>No output</div>)}
+            <button onClick={() => navigate('/submissions')} className='bg-gray-600 px-4 rounded-md outline-none'>View All Submissions</button>
           </div>
         </div>
       </div>

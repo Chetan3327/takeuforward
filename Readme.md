@@ -2,7 +2,7 @@
 # TUF (SDE Intern) Hiring Task
 ![demo](image.png)
 
-This Project is a web application for the task given for TUF (SDE Intern) Hiring Task.
+This Project is a web application given as a task in TUF (SDE Intern) Hiring.
 I had to implement mainly two pages:
 
 1. Code submission page: used mainly monaco editor and judge0 api for code compilation.
