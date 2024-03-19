@@ -5,20 +5,31 @@ import LanguageDropDown from '../components/LanguageDropDown'
 import OutputWindow from '../components/OutputWindow'
 import Details from '../components/Details'
 import {useNavigate} from 'react-router-dom'
+import toast from 'react-hot-toast';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const Submit = () => {
   const [code, setCode] = useState(`console.log('hello, world')`)
   const [language, setLanguage] = useState({id: 63, name: 'JavaScript (Node.js 12.14.0)', label: 'JavaScript (Node.js 12.14.0)', value: 'javascript'})
   const [customInput, setCustomInput] = useState('')
-  const [processing, setProcessing] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [outputDetails, setOutputDetails] = useState(null)
   const [username, setUsername] = useState('')
-  const navigate = useNavigate()
+  const [error, setError] = useState(false)
 
+  const navigate = useNavigate()
+  const handleUserNameInput = (e) => {
+    setUsername(e.target.value)
+    setError(false)
+  }
   const handleCompile = () => {
-    console.log('compiling start')
-    setProcessing(true);
+    if(!username){
+      setError(true)
+      toast.error('username is missing!')
+      return
+    }
+    // console.log('compiling start')
+    setLoading(true);
     const formData = {
       language_id: language.id,
       source_code: btoa(code),
@@ -48,7 +59,7 @@ const Submit = () => {
       })
       .catch((err) => {
         let error = err.response ? err.response.data : err;
-        setProcessing(false);
+        setLoading(false);
         console.log(error);
       });
   };
@@ -70,13 +81,13 @@ const Submit = () => {
 
       // Processed - we have a result
       if (statusId === 1 || statusId === 2) {
-        // still processing
+        // still loading
         setTimeout(() => {
           checkStatus(token)
         }, 2000)
         return
       } else {
-        setProcessing(false)
+        setLoading(false)
         setOutputDetails(response.data)
         // showSuccessToast(`Compiled Successfully!`)
         console.log('response.data', response.data)
@@ -85,7 +96,7 @@ const Submit = () => {
       }
     } catch (err) {
       console.log("err", err);
-      setProcessing(false);
+      setLoading(false);
       // showErrorToast();
     }
   };
@@ -102,8 +113,11 @@ const Submit = () => {
     try {
       const res = await axios.post(`${BACKEND_URL}/submission`, data)
       console.log(res.data)
+      toast.success('Code Submitted Successfully!')
+      setLoading(false)
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   }
   return (
@@ -121,17 +135,17 @@ const Submit = () => {
         <div className='flex gap-5 p-5 h-full bg-secondary rounded-md w-[70vw]'>
           <div className='flex flex-col gap-4 w-[50%] rounded-md'>
             <div className='flex gap-4'>
-              <input type="text" className='w-full bg-[#333] rounded-md p-1.5 outline-none' placeholder='Enter Username...' onChange={(e) => setUsername(e.target.value)} />
-              <button onClick={() => handleCompile()} className='bg-gray-600 px-4 rounded-md outline-none'>submit</button>
+              <input disabled={loading} type="text" className={`w-full bg-[#333] rounded-md p-1.5 outline-none ${error ? 'border border-red-600' : ''}`} placeholder='Enter Username...' onChange={(e) => handleUserNameInput(e)} />
+              <button disabled={loading} onClick={() => handleCompile()} className='bg-gray-600 px-4 rounded-md outline-none hover:bg-gray-600/90'>{loading ? 'executing...' : 'submit'}</button>
             </div>
-            <textarea onChange={(e) => setCustomInput(e.target.value)} className='w-full h-full outline-none bg-[#333] p-1 rounded-md' placeholder='custom input...'></textarea>
+            <textarea disabled={loading} onChange={(e) => setCustomInput(e.target.value)} className='w-full h-full outline-none bg-[#333] p-1 rounded-md' placeholder='custom input...'></textarea>
           </div>
-          <div className='bg-[#333333] w-[50%] rounded-md flex flex-col gap-4'>
+          <div className='w-[50%] rounded-md flex flex-col gap-4'>
             {outputDetails ? (<>
               <Details outputDetails={outputDetails} />
               <OutputWindow outputDetails={outputDetails} />
-            </>) : (<div className='flex justify-center items-center h-full'>No output</div>)}
-            <button onClick={() => navigate('/submissions')} className='bg-gray-600 px-4 rounded-md outline-none'>View All Submissions</button>
+            </>) : (<div className='rounded-md bg-[#333333] flex justify-center items-center h-full'>No output</div>)}
+            <button onClick={() => navigate('/submissions')} className='bg-gray-600 px-4 p-2 rounded-md outline-none hover:bg-gray-600/90'>View All Submissions</button>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import axios from 'axios'
 import Overlay from '../components/Overlay'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-console.log(BACKEND_URL)
+// console.log(BACKEND_URL)
 const Submissions = () => {
   const [data, setData] = useState(null)
   useEffect(() => {
