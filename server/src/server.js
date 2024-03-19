@@ -11,6 +11,9 @@ app.get('/', (req, res) => {
     res.json({message: "hello, world"})
 })
 
+import submissionRouter from './routes/submissions.routes.js'
+app.use('/submission', submissionRouter)
+
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
     console.log(`server started at port ${PORT}`)

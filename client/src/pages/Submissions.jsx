@@ -1,34 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const Submissions = () => {
-  const data = [
-    {
-        username: 'user1',
-        codeLanguage: 'JavaScript',
-        stdin: 'input data 1',
-        timestamp: '2024-03-19T10:15:30Z',
-        sourceCode: 'function helloWorld() { console.log("Hello, world!"); }'
-    },
-    {
-        username: 'user2',
-        codeLanguage: 'Python',
-        stdin: 'input data 2',
-        timestamp: '2024-03-19T11:20:45Z',
-        sourceCode: 'def hello_world():\n    print("Hello, world!")'
-    },
-    {
-        username: 'user3',
-        codeLanguage: 'Java',
-        stdin: 'input data 3',
-        timestamp: '2024-03-19T12:25:15Z',
-        sourceCode: 'public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, world!");\n    }\n}'
+  const [data, setData] = useState(null)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const {data} = await axios.get(`${BACKEND_URL}/submission`)
+        setData(data);
+        console.log(data)
+      } catch (error) {
+        console.log(error);
+      }
     }
-  ];
+  
+    fetchData();
+  }, [])
   return (
     <div className='flex min-h-screen p-5 gap-5'>
       <div className='flex bg-secondary rounded-md w-full shadow-lg'>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            {data ? (<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs uppercase dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
@@ -69,7 +62,7 @@ const Submissions = () => {
                     </tr>
                   })}
                 </tbody>
-            </table>
+            </table>):(<div className='flex justify-center items-center h-full'>Loading...</div>)}
         </div>
       </div>
     </div>
