@@ -18,6 +18,7 @@ model Submission{
   username String
   codeLanguage String
   stdin String
+  stdout String @default("")
   timestamp DateTime
   sourceCode String
 }

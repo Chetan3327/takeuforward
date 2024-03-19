@@ -92,7 +92,8 @@ const Submit = () => {
     const data = {
       username,
       codeLanguage: outputDetails.language.name, 
-      stdin: atob(outputDetails.stdin), 
+      stdin: atob(outputDetails.stdin),
+      stdout: atob(outputDetails.stdout), 
       timestamp: outputDetails.finished_at, 
       sourceCode: atob(outputDetails.source_code)
     }

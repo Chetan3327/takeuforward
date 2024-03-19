@@ -10,8 +10,8 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const {username, codeLanguage, stdin, timestamp, sourceCode} = req.body
-    const submission = await prisma.submission.create({data: {username, codeLanguage, stdin, timestamp, sourceCode}})
+    const {username, codeLanguage, stdin, stdout, timestamp, sourceCode} = req.body
+    const submission = await prisma.submission.create({data: {username, codeLanguage, stdin, stdout, timestamp, sourceCode}})
     res.json(submission)    
 })
 

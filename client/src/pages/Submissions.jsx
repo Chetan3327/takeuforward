@@ -22,7 +22,7 @@ const Submissions = () => {
   return (
     <>
       <div className={`flex min-h-screen gap-5`}>
-        <div className='flex bg-secondary rounded-md w-full shadow-lg'>
+        <div className='flex bg-secondary rounded-md w-full shadow-lg m-5'>
           <div className="overflow-x-auto shadow-md sm:rounded-lg w-full">
               {data ? (<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead className="text-xs uppercase dark:text-gray-400">
@@ -35,6 +35,9 @@ const Submissions = () => {
                           </th>
                           <th scope="col" className="px-6 py-3">
                               Stdin
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                              StdOut
                           </th>
                           <th scope="col" className="px-6 py-3">
                               Timestamp
@@ -55,6 +58,9 @@ const Submissions = () => {
                         </td>
                         <td className="px-6 py-4">
                             {item.stdin}
+                        </td>
+                        <td className="px-6 py-4">
+                            {item.stdout}
                         </td>
                         <td className="px-6 py-4">
                             {item.timestamp}
