@@ -78,6 +78,7 @@ const Submit = () => {
         setOutputDetails(response.data)
         // showSuccessToast(`Compiled Successfully!`)
         console.log('response.data', response.data)
+        createSubmission(response.data)
         return
       }
     } catch (err) {
@@ -87,6 +88,21 @@ const Submit = () => {
     }
   };
 
+  const createSubmission = async (outputDetails) => {
+    const data = {
+      username,
+      codeLanguage: outputDetails.language.name, 
+      stdin: atob(outputDetails.stdin), 
+      timestamp: outputDetails.finished_at, 
+      sourceCode: atob(outputDetails.source_code)
+    }
+    try {
+      const res = await axios.post(`${BACKEND_URL}/submission`, data)
+      console.log(res.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className='flex min-h-screen p-5 gap-5'>
       <div className='flex bg-secondary rounded-md w-[30vw] justify-center items-center'>
